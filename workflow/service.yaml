@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-js #The name of the Service.
+spec:
+  selector: #Specifies the labels that the Service will route traffic to.
+    app: node-app  # This should match the labels of your Pod(s)
+  ports:
+    - protocol: TCP
+      port: 3000     # Port on the Service through which it will be accessible
+      targetPort: 3000  # Port on the Pod where the service traffic will be forwarded
+  type: NodePort # Specifies the type of Service. 
