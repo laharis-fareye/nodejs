@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: blue-container
-        image: nginx:blue
+        image: nginx:latest
         ports:
         - containerPort: 80
