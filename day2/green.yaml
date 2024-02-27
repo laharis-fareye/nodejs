@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: version2
+  template:
+    metadata:
+      labels:
+        app: version2
+        color: green
+    spec:
+      containers:
+      - name: green-container
+        image: nginx:green
+        ports:
+        - containerPort: 80
