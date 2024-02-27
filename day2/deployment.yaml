@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myservice
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: myservice
+  template:
+    metadata:
+      labels:
+        app: myservice
+        environment: non-prod
+    spec:
+      containers:
+      - name: myservice-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
