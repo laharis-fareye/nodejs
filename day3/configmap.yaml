@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weather-config
+data:
+  city: chennai
+  url: "http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${API_KEY}"

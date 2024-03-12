@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-microservice
+  template:
+    metadata:
+      labels:
+        app: weather-microservice
+    spec:
+      containers:
+      - name: weather-microservice
+        image: laharisanapoori/weather:latest
+        ports:
+            - containerPort: 3005
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openweathermap-secret
+              key: api_key
+        - name: CITY
+          valueFrom:
+            configMapKeyRef:
+              name: weather-config
+              key: city
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: weather-config
+              key: url
