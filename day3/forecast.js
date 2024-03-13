@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT ;
-const API_KEY = '7cc650edd7c3d302ac30dbf89289bd5b';
+const API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 const city = process.env.CITY
 
 app.get('/', async (req, res) => {
@@ -40,10 +40,9 @@ app.get('/', async (req, res) => {
 
           // Combine current weather and forecast information
           const message = `
-            <h1>City Name: ${cityName}</h1>
-            <h2>Current Weather:</h2>
+            <h1>City: ${cityName}</h1>
+            <h2>today's Weather:</h2>
             <p>Temperature: ${currentTemperature}&deg;C</p>
-            <h2>Forecast for the Next Days:</h2>
             ${forecastMessages.join('<br><br>')}
           `;
 

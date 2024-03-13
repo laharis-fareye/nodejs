@@ -13,10 +13,10 @@ RUN npm install
 COPY . .
 
 # Expose port 7878
-EXPOSE 3005
+EXPOSE 3009
 
 # Define environment variables
-ENV PORT=3005
+ENV PORT=3009
 ENV API_KEY=$OPENWEATHERMAP_API_KEY
 
 # Command to run the application
