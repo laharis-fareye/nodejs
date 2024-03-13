@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: quarkus-sts
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: quarkus-sts
+  serviceName: "quarkus"
+  template:
+    metadata:
+      labels:
+        app: quarkus-sts
+    spec:
+      containers:
+      - name: quarkus-sts
+        image: nginx:latest  # Example nginx image
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: quarkus-pvc
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: quarkus-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
