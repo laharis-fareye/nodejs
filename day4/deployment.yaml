@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-microservice
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: weather-microservice
+  template:
+    metadata:
+      labels:
+        app: weather-microservice
+    spec:
+      containers:
+      - name: weather-microservice
+        image: laharisanapoori/weather:latest
+        ports:
+            - containerPort: 3009
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openweathermap-secret
+              key: api_key
+        - name: CITY
+          valueFrom:
+            configMapKeyRef:
+              name: weather-config
+              key: city
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: weather-config
+              key: url
+      tolerations:
+      - key: "weather-app"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule" 
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master  
+                operator: DoesNotExist 
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - weather-microservice
+            topologyKey: "kubernetes.io/hostname" 
